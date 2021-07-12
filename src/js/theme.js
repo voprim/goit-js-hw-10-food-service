@@ -12,35 +12,37 @@ inputRef.addEventListener('change', changeInput);
 
 // Проверка переключателя
 function changeInput(event) {
-  event.currentTarget.checked ? checkedInput() : notCheckedInput();
+  if (event.currentTarget.checked) {
+    checkedInput(Theme.DARK, Theme.LIGHT, true)
+  } else { checkedInput(Theme.LIGHT, Theme.DARK, false); }
 }
 
-// Установка темной темы
-function checkedInput() {
-  document.body.classList.add(Theme.DARK);
-  document.body.classList.remove(Theme.LIGHT);
-  localStorage.setItem('theme', Theme.DARK);
-  inputRef.checked = true;
+// Установка темы
+function checkedInput(a, b, t) {
+  document.body.classList.add(a);
+  document.body.classList.remove(b);
+  localStorage.setItem('theme', a);
+  inputRef.checked = t;
 }
 
-// Установка светлой темы
+/* Установка светлой темы
 function notCheckedInput() {
   document.body.classList.add(Theme.LIGHT);
   document.body.classList.remove(Theme.DARK);
   localStorage.setItem('theme', Theme.LIGHT);
   inputRef.checked = false;
-}
+} */
 
 // Тема по умолчанию
 function currentTheme() {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === Theme.LIGHT || savedTheme === null) {
-    notCheckedInput();
+    checkedInput(Theme.LIGHT, Theme.DARK, false);
     return;
   }
 
   if (savedTheme === Theme.DARK) {
-    checkedInput();
+    checkedInput(Theme.DARK, Theme.LIGHT, true);
     return;
   }
 }
